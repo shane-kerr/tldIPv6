@@ -5,14 +5,14 @@ In order for an IPv6-only resolver to work, the authority servers that
 it queries must also support IPv6. Since DNS is hierarchical, all of
 the zones above a given domain must also support IPv6. The root DNS
 servers have had IPv6 support for many years now, but there are still
-some TLD servers which do not have any IPv6 servers. This program
+some TLD domains which do not have any IPv6 servers. This program
 finds them.
 
 ## Installation
 
 Most importantly you need a Unix machine with working IPv6.
 
-You need Python 3 and dnspython. You can install dnspython via:
+You also need Python 3 and dnspython. You can install dnspython via:
 
 ```
 $ pip install -r requirements.txt
