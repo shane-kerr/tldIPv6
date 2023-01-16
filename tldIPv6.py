@@ -48,7 +48,7 @@ def get_tlds(root_server_ips):
         except dns.exception.FormError as ex:
             print("%s; Unable to XFR from %s" % (ex, target_ip),
                   file=sys.stderr)
-        except dns.xfr.TransferError:
+        except dns.xfr.TransferError as ex:
             print("%s; Unable to XFR from %s" % (ex, target_ip),
                   file=sys.stderr)
 
