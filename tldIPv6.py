@@ -84,6 +84,8 @@ def ipv6_ns_check(domain):
                 break
             except dns.resolver.NXDOMAIN:
                 break
+            except dns.resolver.NoNameservers:
+                break
             except dns.exception.Timeout:
                 tries += 1
 
@@ -102,9 +104,14 @@ def main():
         overwrite = "\r" + "".ljust(last_tld_len+len(progress)) + "\r"
         print(overwrite, end='', file=sys.stderr)
         print("%s%s" % (progress, tld), end='', flush=True, file=sys.stderr)
-        err = ipv6_ns_check(tld)
-        if err:
-            print("%s\t%s" % (tld, err), flush=True)
+        try:
+            err = ipv6_ns_check(tld)
+            if err:
+                print("%s\t%s" % (tld, err), flush=True)
+        except:
+            print(overwrite, file=sys.stderr)
+            print(tld, file=sys.stderr)
+            raise
         last_tld_len = len(tld)
     print(file=sys.stderr)
 
