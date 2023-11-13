@@ -6,6 +6,7 @@ import dns.query
 import dns.rdatatype
 import dns.resolver
 
+
 def get_root_server_ips():
     """get the root servers' IP addresses"""
     # look up the root servers
@@ -27,6 +28,7 @@ def get_root_server_ips():
                 root_server_ips.add(rr.address.lower())
     # return our result
     return root_server_ips
+
 
 def get_tlds(root_server_ips):
     """get a list of all TLD's from the root servers"""
@@ -95,6 +97,7 @@ def ipv6_ns_check(domain):
     # if not, we have no IPv6
     return "no IPv6 nameservers"
 
+
 def main():
     root_server_ips = get_root_server_ips()
     tlds = get_tlds(root_server_ips)
@@ -104,16 +107,20 @@ def main():
         overwrite = "\r" + "".ljust(last_tld_len+len(progress)) + "\r"
         print(overwrite, end='', file=sys.stderr)
         print("%s%s" % (progress, tld), end='', flush=True, file=sys.stderr)
+
         try:
             err = ipv6_ns_check(tld)
             if err:
                 print("%s\t%s" % (tld, err), flush=True)
-        except:
+
+        except:     # noqa: E722
             print(overwrite, file=sys.stderr)
             print(tld, file=sys.stderr)
             raise
+
         last_tld_len = len(tld)
     print(file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()
