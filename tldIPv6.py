@@ -60,6 +60,7 @@ def ipv6_ns_check(domain):
     # make sure we are looking up absolute names
     if not domain.endswith('.'):
         domain = domain + '.'
+
     # get our list of name servers for the domain
     try:
         ns_rr = dns.resolver.resolve(domain, dns.rdatatype.NS)
@@ -73,6 +74,7 @@ def ipv6_ns_check(domain):
     for rr in ns_rr:
         if rr.rdtype == dns.rdatatype.NS:
             ns_names.add(rr.target.to_text().lower())
+
     # see if we can get an AAAA record for one of them
     for ns_name in ns_names:
         tries = 0
@@ -91,10 +93,7 @@ def ipv6_ns_check(domain):
             except dns.exception.Timeout:
                 tries += 1
 
-        if tries == 3:
-            return "all AAAA lookups timed out"
-
-    # if not, we have no IPv6
+    # if we don't have an AAAA for any of the names, we have no IPv6
     return "no IPv6 nameservers"
 
 
